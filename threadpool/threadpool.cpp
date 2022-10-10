@@ -230,7 +230,7 @@ void* ThreadPool::worker(void* arg)
         while (pool->m_taskQ->taskNumber() == 0 && !pool->m_shutdown)
         {
             cout << "thread " << to_string(pthread_self()) << " waiting..." << endl;
-            // 阻塞线程
+            // 阻塞线程, wait for condition varity come
             pthread_cond_wait(&pool->m_notEmpty, &pool->m_lock);
 
             // 解除阻塞之后, 判断是否要销毁线程

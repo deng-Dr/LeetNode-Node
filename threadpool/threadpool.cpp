@@ -17,7 +17,7 @@ struct Task
         function = nullptr;
         arg = nullptr;
     }
-    Task(callback f, void* arg)
+    Task(callback f, void* arg = nullptr)
     {
         function = f;
         this->arg = arg;
@@ -345,3 +345,34 @@ void ThreadPool::threadExit()
     pthread_exit(NULL);
 }
 
+void fun1(void* = nullptr){
+    for(int i = 0; i < 6; ++i){
+        cout << "fun1 i = " << " " << i << endl;
+        sleep(1);
+    }
+}
+void fun2(void* = nullptr){
+    for(int i = 0; i < 6; ++i){
+        cout << "fun3 i = " << " " << i << endl;
+        sleep(1);
+    }
+}
+void fun3(void* = nullptr){
+    for(int i = 0; i < 6; ++i){
+        cout << "fun2 i = " << " " << i << endl;
+        sleep(1);
+    }
+}
+
+int main(){
+    ThreadPool pool(1, 5);
+    Task t1(fun1, nullptr);
+    Task t2(fun2, nullptr);
+    Task t3(fun3, nullptr);
+    pool.addTask(t1);
+    pool.addTask(t2);
+    pool.addTask(t3);
+    sleep(50);
+    
+    // system(pause);
+}
